@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_boilerplate/blocs/auth/authentication_bloc.dart';
 import 'package:flutter_boilerplate/blocs/auth/login_bloc.dart';
 import 'package:flutter_boilerplate/components/loader.dart';
+import 'package:flutter_boilerplate/generated/l10n.dart';
 import 'package:flutter_boilerplate/models/profile.dart';
 import 'package:flutter_boilerplate/services/api_provider.dart';
-
 
 class LoginPage extends StatefulWidget {
   @override
@@ -21,7 +21,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _loginBloc = LoginBloc(_handleLoggedIn, RepositoryProvider.of<ApiProvider>(context).auth);
+    _loginBloc = LoginBloc(
+      _handleLoggedIn,
+      RepositoryProvider.of<ApiProvider>(context).auth,
+        () => _getLocalizations(context),
+    );
     _usernameController = TextEditingController();
     _passwordController = TextEditingController();
   }
@@ -72,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   Container(height: 32),
-                  if (_appVersion != null) Text('Версия $_appVersion'),
+                  if (_appVersion != null) Text('${S.of(context).version} $_appVersion'),
                 ],
               ),
             ),
@@ -91,6 +95,10 @@ class _LoginPageState extends State<LoginPage> {
     final password = _passwordController.text;
     _loginBloc.add(LoginWithCredentials(username, password));
   }
+
+  S _getLocalizations(BuildContext context) {
+    return S.of(context);
+  }
 }
 
 class LoginForm extends StatelessWidget {
@@ -102,16 +110,17 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Form(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text('Вход', style: Theme.of(context).textTheme.headline4),
+          Text(s.login, style: Theme.of(context).textTheme.headline4),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
               controller: usernameController,
-              decoration: InputDecoration(hintText: 'Логин'),
+              decoration: InputDecoration(hintText: s.user_name),
             ),
           ),
           Padding(
@@ -121,7 +130,7 @@ class LoginForm extends StatelessWidget {
               controller: passwordController,
               obscureText: true,
               autocorrect: false,
-              decoration: InputDecoration(hintText: 'Пароль'),
+              decoration: InputDecoration(hintText: s.password),
             ),
           ),
           Padding(
@@ -130,7 +139,7 @@ class LoginForm extends StatelessWidget {
               color: Theme.of(context).buttonTheme.colorScheme.primary,
               onPressed: onLogin,
               textColor: Colors.white,
-              child: Text('Войти'),
+              child: Text(s.sign_in),
             ),
           ),
         ],

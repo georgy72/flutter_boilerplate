@@ -70,9 +70,13 @@ class SignInState extends BaseLoginState {
 class LoginBloc extends Bloc<LoginEvent, BaseLoginState> {
   final AuthApiProvider _authApiProvider;
   final Function(Profile profile) _onLogin;
+  final Function _getLocalizations;
 
-  LoginBloc(this._onLogin, this._authApiProvider)
-      : assert(_onLogin != null, _authApiProvider != null),
+  LoginBloc(
+    this._onLogin,
+    this._authApiProvider,
+    this._getLocalizations,
+  )   : assert(_onLogin != null && _authApiProvider != null && _getLocalizations != null),
         super(SignInState());
 
   @override
@@ -92,10 +96,10 @@ class LoginBloc extends Bloc<LoginEvent, BaseLoginState> {
         yield SignInState.success();
         _handleLoggedIn(profile);
       } else {
-        yield SignInState.error(errorText: 'Неверный логин или пароль.');
+        yield SignInState.error(errorText: _getLocalizations().incorrect_username_or_password);
       }
     } catch (e) {
-      yield SignInState.error(errorText: 'Что-то пошло не так.');
+      yield SignInState.error(errorText: _getLocalizations().something_went_wrong);
     }
   }
 

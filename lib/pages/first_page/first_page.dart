@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boilerplate/generated/l10n.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({Key key}) : super(key: key);
@@ -11,12 +12,13 @@ class FirstPage extends StatefulWidget {
 class _FirstPageState extends State<FirstPage> {
   @override
   Widget build(BuildContext context) {
+    String title = S.of(context).first_page;
     return Scaffold(
       appBar: AppBar(
-        title: Text('First page'),
+        title: Text(title),
       ),
       body: Center(
-        child: Text('First page'),
+        child: Text(title),
       ),
     );
   }

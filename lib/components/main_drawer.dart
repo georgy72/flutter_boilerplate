@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_boilerplate/blocs/auth/authentication_bloc.dart';
+import 'package:flutter_boilerplate/generated/l10n.dart';
 
+import '../app.dart';
 import '../routes.dart';
 
 class MainAppDrawer extends StatefulWidget {
@@ -29,20 +31,20 @@ class _MainAppDrawerState extends State<MainAppDrawer> {
             ),
             Divider(color: Colors.grey, endIndent: 16, indent: 0, thickness: 0.8),
             ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Home page'),
+              leading: Icon(Icons.home),
+              title: Text(S.of(context).home_page),
               onTap: _getHandleNavigateTo(Routes.root),
               selected: selectedRoute == Routes.root,
             ),
             ListTile(
-              leading: Icon(Icons.person),
-              title: Text('First page'),
+              leading: Icon(Icons.wash_outlined),
+              title: Text(S.of(context).first_page),
               onTap: _getHandleNavigateTo(Routes.firstPage),
               selected: selectedRoute == Routes.firstPage,
             ),
             ListTile(
-              leading: Icon(Icons.history),
-              title: Text('Second page'),
+              leading: Icon(Icons.wash_rounded),
+              title: Text(S.of(context).second_page),
               onTap: _getHandleNavigateTo(Routes.secondPage),
               selected: selectedRoute == Routes.secondPage,
             ),
@@ -87,7 +89,7 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
-            title: Text('Sign out'),
+            title: Text(S.of(context).sign_out),
             onTap: () => _handleLogoutTap(context),
           ),
         ],

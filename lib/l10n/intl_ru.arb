@@ -1,0 +1,13 @@
+{
+  "home_page": "Домашняя страница",
+  "first_page": "Первая страница",
+  "second_page": "Вторая страница",
+  "sign_out": "Выйти",
+  "sign_in": "Войти",
+  "login": "Вход",
+  "version": "Версия",
+  "user_name": "Логин",
+  "password": "Пароль",
+  "incorrect_username_or_password": "Неверный логин или пароль",
+  "something_went_wrong": "Что-то пошло не так"
+}

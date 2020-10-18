@@ -14,7 +14,6 @@ void main() {
   if (App.isDebug) Bloc.observer = MyBlocObserver();
 
   Intl.defaultLocale = 'ru_RU';
-  initializeDateFormatting();
 
   final storage = PersistentStorage();
   runApp(MyApp(storage: storage));

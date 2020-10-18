@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/components/main_drawer.dart';
-import 'package:flutter_boilerplate/routes.dart';
+import 'package:flutter_boilerplate/generated/l10n.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -13,20 +13,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final title = S.of(context).home_page;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home page'),
+        title: Text(title),
       ),
       drawer: MainAppDrawer(),
       body: Center(
-        child: Text('Home page'),
+        child: Text(title),
       ),
     );
-  }
-
-  Function _getHandleNavigateTo(BuildContext context, String routeName) {
-    return () async {
-      Navigator.pushNamed(context, routeName);
-    };
   }
 }
