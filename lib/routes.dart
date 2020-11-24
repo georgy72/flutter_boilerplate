@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_boilerplate/pages/second_page/second_page.dart';
+import './pages/second_page/second_page.dart';
 
 import 'components/loader.dart';
 import 'pages/first_page/first_page.dart';

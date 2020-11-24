@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_boilerplate/models/api.dart';
-import 'package:flutter_boilerplate/models/profile.dart';
-import 'package:flutter_boilerplate/services/auth_api_provider.dart';
+import '../../models/api.dart';
+import '../../models/profile.dart';
+import '../../services/auth_api_provider.dart';
 
 abstract class LoginEvent extends Equatable {
   const LoginEvent();

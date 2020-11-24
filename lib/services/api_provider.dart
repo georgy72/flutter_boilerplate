@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_boilerplate/models/api.dart';
-import 'package:flutter_boilerplate/utils/requests/requests.dart';
+import '../models/api.dart';
+import '../utils/requests/requests.dart';
 
 import 'auth_api_provider.dart';
 

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter_boilerplate/resources/resources.dart';
-import 'package:flutter_boilerplate/services/persistent_storage.dart';
-import 'package:flutter_boilerplate/utils/requests/requests.dart';
+import '../../resources/resources.dart';
+import '../../services/persistent_storage.dart';
+import '../../utils/requests/requests.dart';
 
 import 'middleware.dart';
 

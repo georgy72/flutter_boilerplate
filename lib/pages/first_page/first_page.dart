@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_boilerplate/generated/l10n.dart';
+import '../../generated/l10n.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({Key key}) : super(key: key);

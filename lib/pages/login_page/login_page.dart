@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_boilerplate/blocs/auth/authentication_bloc.dart';
-import 'package:flutter_boilerplate/blocs/auth/login_bloc.dart';
-import 'package:flutter_boilerplate/components/loader.dart';
-import 'package:flutter_boilerplate/generated/l10n.dart';
-import 'package:flutter_boilerplate/models/profile.dart';
-import 'package:flutter_boilerplate/services/api_provider.dart';
+import '../../blocs/auth/authentication_bloc.dart';
+import '../../blocs/auth/login_bloc.dart';
+import '../../components/loader.dart';
+import '../../generated/l10n.dart';
+import '../../models/profile.dart';
+import '../../services/api_provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_boilerplate/components/main_drawer.dart';
-import 'package:flutter_boilerplate/generated/l10n.dart';
+import '../../components/main_drawer.dart';
+import '../../generated/l10n.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);

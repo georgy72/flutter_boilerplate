@@ -1,7 +1,7 @@
-import 'package:flutter_boilerplate/models/profile.dart';
-import 'package:flutter_boilerplate/resources/resources.dart';
-import 'package:flutter_boilerplate/services/api_provider.dart';
-import 'package:flutter_boilerplate/utils/requests/requests.dart';
+import '../models/profile.dart';
+import '../resources/resources.dart';
+import '../services/api_provider.dart';
+import '../utils/requests/requests.dart';
 
 class AuthApiProvider {
   final HttpClient client;

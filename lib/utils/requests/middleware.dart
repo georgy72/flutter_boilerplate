@@ -1,6 +1,6 @@
-import 'package:flutter_boilerplate/utils/requests/requests.dart';
+import '../../utils/requests/requests.dart';
 
-export 'package:flutter_boilerplate/utils/requests/requests.dart';
+export '../../utils/requests/requests.dart';
 
 class MiddlewareClient extends HttpClient {
   final HttpClient _client;
