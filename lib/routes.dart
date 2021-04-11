@@ -18,7 +18,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case Routes.root:
       return MaterialPageRoute(
-        builder: (context) => HomePage(),
+        builder: (context) => LoginPage(),
         settings: RouteSettings(name: Routes.root),
       );
     case Routes.login:

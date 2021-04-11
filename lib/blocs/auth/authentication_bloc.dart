@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../models/profile.dart';
 import '../../services/auth_api_provider.dart';
 import '../../services/persistent_storage.dart';
@@ -16,7 +17,7 @@ class AppStarted extends AuthEvent {}
 class LoggedIn extends AuthEvent {
   final Profile profile;
 
-  LoggedIn(this.profile) : assert(profile != null);
+  LoggedIn(this.profile);
 
   @override
   List<Object> get props => [profile];
@@ -25,7 +26,7 @@ class LoggedIn extends AuthEvent {
 class _UpdateProfile extends AuthEvent {
   final Profile profile;
 
-  _UpdateProfile(this.profile) : assert(profile != null);
+  _UpdateProfile(this.profile);
 
   @override
   List<Object> get props => [profile];
@@ -34,7 +35,7 @@ class _UpdateProfile extends AuthEvent {
 class LoggedOut extends AuthEvent {
   final bool showWelcomeScreen;
 
-  const LoggedOut({this.showWelcomeScreen = true}) : assert(showWelcomeScreen != null);
+  const LoggedOut({this.showWelcomeScreen = true});
 
   @override
   List<Object> get props => [showWelcomeScreen];
@@ -71,12 +72,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final PersistentStorage storage;
   final AuthApiProvider _authApiProvider;
 
-  AuthBloc(this.storage, this._authApiProvider)
-      : assert(storage != null),
-        assert(_authApiProvider != null),
-        super(Uninitialized());
+  AuthBloc(this.storage, this._authApiProvider) : super(Uninitialized());
 
-  Profile get profile => (state as Authenticated)?.profile;
+  Profile get profile => (state as Authenticated).profile;
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {

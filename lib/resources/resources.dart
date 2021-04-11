@@ -13,11 +13,11 @@ class Constants {
 }
 
 class Urls {
-  String base;
-  String api;
+  String? base;
+  String? api;
 
-  String auth;
-  String profile;
+  String? auth;
+  String? profile;
 
   Urls() {
     base = 'https://example.com';

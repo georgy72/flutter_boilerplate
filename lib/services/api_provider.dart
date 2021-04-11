@@ -12,15 +12,15 @@ class ApiProvider {
   final HttpClient client;
   final AuthApiProvider auth;
 
-  ApiProvider({HttpClient client})
+  ApiProvider({HttpClient? client})
       : this.client = client ?? createDefaultClient(),
-        auth = AuthApiProvider(client);
+        auth = AuthApiProvider(client!);
 
   static HttpClient createDefaultClient() {
     return Requests(headers: {'Content-Type': 'application/json', 'Accept': 'application/json'});
   }
 
-  static ApiErrors getErrors(Response response) {
+  static ApiErrors? getErrors(Response? response) {
     if (response == null) return null;
     final errors = json.decode(response.textContent);
     if (errors == null) return null;
@@ -30,14 +30,14 @@ class ApiProvider {
 }
 
 extension HttpClientExtension on HttpClient {
-  Future<T> fetchItem<T>(
+  Future<T?> fetchItem<T>(
     String url,
     ModelFactoryMethod<T> factoryMethod, {
-    T defaultValue,
+    T? defaultValue,
     FetchMethod method = FetchMethod.get,
-    Map<String, String> headers,
+    Map<String, String>? headers,
     body,
-    Map<String, dynamic> queryParameters,
+    Map<String, dynamic>? queryParameters,
   }) async {
     final response = await fetch(
       url,
@@ -53,11 +53,11 @@ extension HttpClientExtension on HttpClient {
   Future<ApiResponse<T>> fetchItemWithErrors<T>(
     String url,
     ModelFactoryMethod<T> factoryMethod, {
-    T defaultValue,
+    T? defaultValue,
     FetchMethod method = FetchMethod.get,
-    Map<String, String> headers,
+    Map<String, String>? headers,
     body,
-    Map<String, dynamic> queryParameters,
+    Map<String, dynamic>? queryParameters,
   }) async {
     try {
       final response = await fetch(
@@ -70,20 +70,20 @@ extension HttpClientExtension on HttpClient {
       if (!response.ok) return ApiResponse(defaultValue, ApiProvider.getErrors(response), status: response.statusCode);
       return ApiResponse(factoryMethod(json.decode(response.textContent)), null, status: response.statusCode);
     } on SocketException catch (e) {
-      return ApiResponse(defaultValue, ApiErrors({'detail': e.osError.message}));
+      return ApiResponse(defaultValue, ApiErrors({'detail': e.osError!.message}));
     } catch (e) {
       return ApiResponse(defaultValue, ApiErrors({'detail': e.toString()}));
     }
   }
 
-  Future<List<T>> fetchList<T>(
+  Future<List<T>?> fetchList<T>(
     String url,
     ModelFactoryMethod<T> factoryMethod, {
-    List<T> defaultValue,
+    List<T>? defaultValue,
     FetchMethod method = FetchMethod.get,
-    Map<String, String> headers,
+    Map<String, String>? headers,
     body,
-    Map<String, dynamic> queryParameters,
+    Map<String, dynamic>? queryParameters,
   }) async {
     final response = await fetch(
       url,

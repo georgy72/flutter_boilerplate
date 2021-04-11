@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../models/api.dart';
 import '../../models/profile.dart';
 import '../../services/auth_api_provider.dart';
@@ -30,8 +31,8 @@ abstract class BaseLoginState extends Equatable {
   final bool isLoading;
   final bool isSuccess;
   final bool isFailure;
-  final String errorText;
-  final ApiErrors errors;
+  final String? errorText;
+  final ApiErrors? errors;
 
   const BaseLoginState({
     this.isLoading = false,
@@ -45,11 +46,11 @@ abstract class BaseLoginState extends Equatable {
 
   BaseLoginState.success() : this(isSuccess: true);
 
-  BaseLoginState.error({String errorText, ApiErrors errors})
+  BaseLoginState.error({String? errorText, ApiErrors? errors})
       : this(isFailure: true, errorText: errorText, errors: errors);
 
   @override
-  List<Object> get props => [isLoading, isSuccess, isFailure, errorText, errors];
+  List<Object?> get props => [isLoading, isSuccess, isFailure, errorText, errors];
 
   @override
   String toString() {
@@ -64,7 +65,7 @@ class SignInState extends BaseLoginState {
 
   SignInState.success() : super.success();
 
-  SignInState.error({String errorText, ApiErrors errors}) : super.error(errorText: errorText, errors: errors);
+  SignInState.error({String? errorText, ApiErrors? errors}) : super.error(errorText: errorText, errors: errors);
 }
 
 class LoginBloc extends Bloc<LoginEvent, BaseLoginState> {
@@ -91,7 +92,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseLoginState> {
   Stream<BaseLoginState> _mapLoginWithCredentialsToState(LoginWithCredentials event) async* {
     try {
       yield SignInState.loading();
-      final profile = await _authApiProvider.signIn(event.username, event.password);
+      final Profile? profile = await _authApiProvider.signIn(event.username, event.password);
       if (profile != null) {
         yield SignInState.success();
         _handleLoggedIn(profile);

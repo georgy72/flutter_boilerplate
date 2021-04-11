@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../generated/l10n.dart';
 
 class FirstPage extends StatefulWidget {
-  const FirstPage({Key key}) : super(key: key);
+  const FirstPage({Key? key}) : super(key: key);
 
   @override
   _FirstPageState createState() => _FirstPageState();

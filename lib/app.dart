@@ -20,7 +20,7 @@ import 'utils/requests/middleware.dart';
 class MyApp extends StatefulWidget {
   final PersistentStorage storage;
 
-  const MyApp({Key key, this.storage}) : super(key: key);
+  const MyApp({Key? key, required this.storage}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -29,8 +29,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
-  NavigatorState get _navigator => _navigatorKey.currentState;
-  AuthBloc authBloc;
+  NavigatorState? get _navigator => _navigatorKey.currentState;
+  AuthBloc? authBloc;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    authBloc.close();
+    authBloc?.close();
     super.dispose();
   }
 
@@ -80,13 +80,13 @@ class _MyAppState extends State<MyApp> {
             return BlocListener<AuthBloc, AuthState>(
               listener: (context, state) {
                 if (state is Authenticated)
-                  _navigator.pushAndRemoveUntil<void>(
-                      MaterialPageRoute<void>(builder: (_) => HomePage()), (route) => false);
+                  _navigator!
+                      .pushAndRemoveUntil<void>(MaterialPageRoute<void>(builder: (_) => HomePage()), (route) => false);
                 if (state is Unauthenticated)
-                  _navigator.pushAndRemoveUntil<void>(
-                      MaterialPageRoute<void>(builder: (_) => LoginPage()), (route) => false);
+                  _navigator!
+                      .pushAndRemoveUntil<void>(MaterialPageRoute<void>(builder: (_) => LoginPage()), (route) => false);
                 if (state is Uninitialized)
-                  _navigator.pushAndRemoveUntil<void>(
+                  _navigator!.pushAndRemoveUntil<void>(
                       MaterialPageRoute<void>(builder: (_) => CircularSpinner()), (route) => false);
               },
               child: child,
@@ -102,11 +102,11 @@ class _MyAppState extends State<MyApp> {
     final storage = RepositoryProvider.of<PersistentStorage>(context);
     final apiProvider = RepositoryProvider.of<ApiProvider>(context);
     authBloc = AuthBloc(storage, apiProvider.auth)..add(AppStarted());
-    return authBloc;
+    return authBloc!;
   }
 
   void _handleUnauthorized() {
     if (authBloc == null) return;
-    authBloc.add(LoggedOut());
+    authBloc?.add(LoggedOut());
   }
 }

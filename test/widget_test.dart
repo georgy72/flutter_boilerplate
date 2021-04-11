@@ -7,12 +7,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/app.dart';
+import 'package:flutter_boilerplate/services/persistent_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    final storage = PersistentStorage();
+    await tester.pumpWidget(MyApp(storage: storage));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

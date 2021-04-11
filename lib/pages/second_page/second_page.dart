@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../generated/l10n.dart';
 
 class SecondPage extends StatefulWidget {
-  const SecondPage({Key key}) : super(key: key);
+  const SecondPage({Key? key}) : super(key: key);
 
   @override
   _SecondPageState createState() => _SecondPageState();

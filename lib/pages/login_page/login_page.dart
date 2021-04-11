@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../blocs/auth/authentication_bloc.dart';
 import '../../blocs/auth/login_bloc.dart';
 import '../../components/loader.dart';
@@ -13,10 +14,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  LoginBloc _loginBloc;
-  TextEditingController _usernameController;
-  TextEditingController _passwordController;
-  String _appVersion;
+  LoginBloc? _loginBloc;
+  TextEditingController? _usernameController;
+  TextEditingController? _passwordController;
+  String? _appVersion;
 
   @override
   void initState() {
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
     _loginBloc = LoginBloc(
       _handleLoggedIn,
       RepositoryProvider.of<ApiProvider>(context).auth,
-        () => _getLocalizations(context),
+      () => _getLocalizations(context),
     );
     _usernameController = TextEditingController();
     _passwordController = TextEditingController();
@@ -32,16 +33,16 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    _loginBloc.close();
-    _usernameController.dispose();
-    _passwordController.dispose();
+    _loginBloc?.close();
+    _usernameController?.dispose();
+    _passwordController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, BaseLoginState>(
-      cubit: _loginBloc,
+      bloc: _loginBloc,
       builder: (BuildContext context, BaseLoginState state) {
         return Scaffold(
           body: Container(
@@ -55,20 +56,20 @@ class _LoginPageState extends State<LoginPage> {
                     child: Loader(
                       isLoading: state.isLoading,
                       child: LoginForm(
-                        usernameController: _usernameController,
-                        passwordController: _passwordController,
+                        usernameController: _usernameController!,
+                        passwordController: _passwordController!,
                         onLogin: _handleLoginTap,
                       ),
                     ),
                   ),
-                  if (_loginBloc.state.errorText != null)
+                  if (_loginBloc!.state.errorText != null)
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Text(
-                        '${_loginBloc.state.errorText}',
+                        '${_loginBloc!.state.errorText}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Theme.of(context).buttonTheme.colorScheme.error,
+                          color: Theme.of(context).buttonTheme.colorScheme?.error,
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                         ),
@@ -91,9 +92,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _handleLoginTap() {
-    final username = _usernameController.text;
-    final password = _passwordController.text;
-    _loginBloc.add(LoginWithCredentials(username, password));
+    final username = _usernameController!.text;
+    final password = _passwordController!.text;
+    _loginBloc!.add(LoginWithCredentials(username, password));
   }
 
   S _getLocalizations(BuildContext context) {
@@ -106,7 +107,8 @@ class LoginForm extends StatelessWidget {
   final TextEditingController passwordController;
   final Function() onLogin;
 
-  const LoginForm({Key key, this.onLogin, this.usernameController, this.passwordController}) : super(key: key);
+  const LoginForm({Key? key, required this.onLogin, required this.usernameController, required this.passwordController})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -135,10 +137,10 @@ class LoginForm extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: FlatButton(
-              color: Theme.of(context).buttonTheme.colorScheme.primary,
+            child: TextButton(
+              // color: Theme.of(context).buttonTheme.colorScheme.primary,
               onPressed: onLogin,
-              textColor: Colors.white,
+              // textColor: Colors.white,
               child: Text(s.sign_in),
             ),
           ),

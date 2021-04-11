@@ -9,16 +9,6 @@ class MiddlewareClient extends HttpClient {
   MiddlewareClient._(this._client, this._middlewares);
 
   factory MiddlewareClient.build(HttpClient client, List<Middleware> middlewares) {
-    assert(client != null);
-    assert(middlewares != null);
-    assert(() {
-      final int index = middlewares.indexOf(null);
-      if (index >= 0) {
-        throw AssertionError("MiddlewareClient's middlewares must not contain any null values, "
-            'but a null value was found at index $index');
-      }
-      return true;
-    }());
     var _client = client;
     var _middlewares = middlewares;
     if (client is MiddlewareClient) {
@@ -33,11 +23,11 @@ class MiddlewareClient extends HttpClient {
   Future<Response> fetch(
     String url, {
     FetchMethod method = FetchMethod.get,
-    Map<String, String> headers,
+    Map<String, String>? headers,
     body,
-    Map<String, dynamic> queryParameters,
+    Map<String, dynamic>? queryParameters,
   }) async {
-    final request = await _requestPipeline(Request(url, method, headers, body, queryParameters));
+    final request = await _requestPipeline(Request(url, method, headers ?? {}, body, queryParameters));
     final response = _responsePipeline(await _fetch(request));
     return response;
   }
@@ -81,18 +71,18 @@ abstract class Middleware {
 class Request {
   final String url;
   final FetchMethod method;
-  final Map<String, String> headers;
+  final Map<String, String>? headers;
   final dynamic body;
-  final Map<String, dynamic> queryParameters;
+  final Map<String, dynamic>? queryParameters;
 
   Request(this.url, this.method, this.headers, this.body, this.queryParameters);
 
   Request copyWith({
-    String url,
-    FetchMethod method,
-    Map<String, String> headers,
-    dynamic body,
-    Map<String, dynamic> queryParameters,
+    String? url,
+    FetchMethod? method,
+    Map<String, String>? headers,
+    dynamic? body,
+    Map<String, dynamic>? queryParameters,
   }) {
     return Request(
       url ?? this.url,

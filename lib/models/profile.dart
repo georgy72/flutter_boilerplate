@@ -6,13 +6,13 @@ part 'profile.g.dart';
 class User {
   User();
 
-  int id;
-  String username;
+  int? id;
+  String? username;
 
   @JsonKey(name: 'first_name')
-  String firstName;
+  String? firstName;
   @JsonKey(name: 'last_name')
-  String lastName;
+  String? lastName;
 
   bool get hasName => firstName?.isNotEmpty == true || lastName?.isNotEmpty == true;
 
@@ -20,7 +20,7 @@ class User {
 
   String get initials => hasName ? '${_getInitial(lastName)} ${_getInitial(firstName)}' : _getInitial(username);
 
-  String _getInitial(String value) {
+  String _getInitial(String? value) {
     if (value == null || value.isEmpty) return '';
     return '${value[0].toUpperCase()}.';
   }
@@ -30,7 +30,6 @@ class User {
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }
 
-@JsonSerializable(nullable: false)
 class Profile extends User {
   Profile();
 

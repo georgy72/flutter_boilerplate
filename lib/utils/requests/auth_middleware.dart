@@ -10,7 +10,7 @@ class AuthMiddleware extends Middleware {
   final PersistentStorage storage;
   final Function() onUnauthorized;
 
-  AuthMiddleware(this.storage, {this.onUnauthorized}) : assert(storage != null);
+  AuthMiddleware(this.storage, {required this.onUnauthorized});
 
   @override
   Future<Request> interceptRequest(Request request) async {
@@ -22,8 +22,8 @@ class AuthMiddleware extends Middleware {
   Future<Response> interceptResponse(Response response) {
     if (response.statusCode == 401)
       _handleUnauthorized(response);
-    else if (response.ok && response.request.method == 'POST') {
-      final url = response.request.url.toString();
+    else if (response.ok && response.request?.method == 'POST') {
+      final url = response.request?.url.toString();
       if (url == Constants.urls.profile || url == Constants.urls.auth) _handleAuthorization(response);
     }
     return super.interceptResponse(response);

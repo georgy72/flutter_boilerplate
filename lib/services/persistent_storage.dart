@@ -7,7 +7,7 @@ class PersistentStorage {
     return await SharedPreferences.getInstance();
   }
 
-  Future<String> getAuthToken() async {
+  Future<String?> getAuthToken() async {
     final prefs = await _prefs();
     return prefs.getString(_authTokenKey);
   }
