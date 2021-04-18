@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_boilerplate/blocs/auth/authentication/auth_bloc.dart';
+import 'package:flutter_boilerplate/blocs/theme/theme_cubit.dart';
 
-import '../blocs/auth/authentication_bloc.dart';
 import '../generated/l10n.dart';
 import '../routes.dart';
 
@@ -61,12 +62,6 @@ class _MainAppDrawerState extends State<MainAppDrawer> {
       },
     );
   }
-
-  Function _getHandleNavigateTo(String routeName) {
-    return () async {
-      Navigator.pushNamed(context, routeName);
-    };
-  }
 }
 
 class AppDrawer extends StatelessWidget {
@@ -76,27 +71,64 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: children,
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.exit_to_app),
-            title: Text(S.of(context).sign_out),
-            onTap: () => _handleLogoutTap(context),
-          ),
-        ],
-      ),
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      builder: (context, ThemeState state) {
+        return BlocBuilder<ThemeCubit, ThemeState>(
+          builder: (context, ThemeState state) {
+            final ThemeMode _themeModeValue = state.themeMode;
+            return Drawer(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Expanded(
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: children,
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Light'),
+                    leading: Radio<ThemeMode>(
+                      value: ThemeMode.light,
+                      groupValue: _themeModeValue,
+                      onChanged: (v) => _handleChangeThemeMode(context, v),
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Dark'),
+                    leading: Radio<ThemeMode>(
+                      value: ThemeMode.dark,
+                      groupValue: _themeModeValue,
+                      onChanged: (v) => _handleChangeThemeMode(context, v),
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('System'),
+                    leading: Radio<ThemeMode>(
+                      value: ThemeMode.system,
+                      groupValue: _themeModeValue,
+                      onChanged: (v) => _handleChangeThemeMode(context, v),
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.exit_to_app),
+                    title: Text(S.of(context).sign_out),
+                    onTap: () => _handleLogoutTap(context),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
   void _handleLogoutTap(BuildContext context) {
     BlocProvider.of<AuthBloc>(context).add(LoggedOut());
+  }
+
+  void _handleChangeThemeMode(BuildContext context, ThemeMode? themeMode) {
+    if (themeMode != null) BlocProvider.of<ThemeCubit>(context).setThemeMode(themeMode);
   }
 }

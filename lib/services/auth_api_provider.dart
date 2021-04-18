@@ -9,7 +9,7 @@ class AuthApiProvider {
   AuthApiProvider(this.client);
 
   Future<Profile?> fetchProfile() async {
-    return client.fetchItem(Constants.urls.profile!, profileFactory);
+    return client.fetchItem(Constants.urls.profile, profileFactory);
   }
 
   Future<Profile?> signIn(String username, String password) {
@@ -18,7 +18,7 @@ class AuthApiProvider {
   }
 
   Future<Profile?> authorize(Map<String, dynamic> data) async {
-    return client.fetchItem(Constants.urls.auth!, profileFactory, method: FetchMethod.post, body: data);
+    return client.fetchItem(Constants.urls.auth, profileFactory, method: FetchMethod.post, body: data);
   }
 
   Profile profileFactory(item) {

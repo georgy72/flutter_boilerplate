@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_boilerplate/blocs/auth/authentication/auth_bloc.dart';
+import 'package:flutter_boilerplate/blocs/auth/login/login_bloc.dart';
 
-import '../../blocs/auth/authentication_bloc.dart';
-import '../../blocs/auth/login_bloc.dart';
 import '../../components/loader.dart';
 import '../../generated/l10n.dart';
 import '../../models/profile.dart';

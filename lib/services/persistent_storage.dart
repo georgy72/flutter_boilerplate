@@ -13,7 +13,6 @@ class PersistentStorage {
   }
 
   Future<void> saveAuthToken(String token) async {
-    assert(token != null);
     final prefs = await _prefs();
     if (token.isEmpty) {
       await clearAuthToken();

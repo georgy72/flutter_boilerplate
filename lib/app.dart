@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'blocs/auth/authentication_bloc.dart';
+import 'blocs/auth/authentication/auth_bloc.dart';
+import 'blocs/theme/theme_cubit.dart';
 import 'components/loader.dart';
 import 'generated/l10n.dart';
 import 'pages/home_page/home_page.dart';
-import 'pages/login_page/login_page.dart';
 import 'resources/resources.dart';
 import 'routes.dart';
 import 'services/api_provider.dart';
@@ -53,10 +53,7 @@ class _MyAppState extends State<MyApp> {
           create: (BuildContext context) {
             final client = MiddlewareClient.build(
               ApiProvider.createDefaultClient(),
-              [
-                AuthMiddleware(storage, onUnauthorized: _handleUnauthorized),
-                if (App.isDebug && !kIsWeb) LogMiddleware()
-              ],
+              [AuthMiddleware(storage, onUnauthorized: _handleUnauthorized), if (App.isDebug) LogMiddleware()],
             );
             return ApiProvider(client: client);
           },
@@ -65,34 +62,41 @@ class _MyAppState extends State<MyApp> {
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AuthBloc>(create: _createAuthBloc),
+          BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
         ],
-        child: MaterialApp(
-          localizationsDelegates: [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          navigatorKey: _navigatorKey,
-          theme: theme,
-          builder: (context, child) {
-            return BlocListener<AuthBloc, AuthState>(
-              listener: (context, state) {
-                if (state is Authenticated)
-                  _navigator!
-                      .pushAndRemoveUntil<void>(MaterialPageRoute<void>(builder: (_) => HomePage()), (route) => false);
-                if (state is Unauthenticated)
-                  _navigator!
-                      .pushAndRemoveUntil<void>(MaterialPageRoute<void>(builder: (_) => LoginPage()), (route) => false);
-                if (state is Uninitialized)
-                  _navigator!.pushAndRemoveUntil<void>(
-                      MaterialPageRoute<void>(builder: (_) => CircularSpinner()), (route) => false);
+        child: BlocBuilder<ThemeCubit, ThemeState>(
+          builder: (context, ThemeState state) {
+            return MaterialApp(
+              localizationsDelegates: [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              navigatorKey: _navigatorKey,
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              themeMode: state.themeMode,
+              builder: (context, child) {
+                return BlocListener<AuthBloc, AuthState>(
+                  listener: (context, state) {
+                    if (state is Authenticated)
+                      _navigator!.pushAndRemoveUntil<void>(
+                          MaterialPageRoute<void>(builder: (_) => HomePage()), (route) => false);
+                    if (state is Unauthenticated)
+                      _navigator!.pushAndRemoveUntil<void>(
+                          MaterialPageRoute<void>(builder: (_) => HomePage()), (route) => false);
+                    if (state is Uninitialized)
+                      _navigator!.pushAndRemoveUntil<void>(
+                          MaterialPageRoute<void>(builder: (_) => CircularSpinner()), (route) => false);
+                  },
+                  child: child,
+                );
               },
-              child: child,
+              onGenerateRoute: generateRoute,
             );
           },
-          onGenerateRoute: generateRoute,
         ),
       ),
     );
